@@ -20,4 +20,10 @@ class ProductController extends AbstractController
         // $products = ["test" => "test"];
         return $this->json($products);
     }
+
+    #[Route('/products/{id}', name: 'view', methods: ['GET'])]
+    public function view(Product $product): Response
+    {
+        return $this->json($product);
+    }
 }
