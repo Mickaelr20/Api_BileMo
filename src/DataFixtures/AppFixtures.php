@@ -3,50 +3,30 @@
 namespace App\DataFixtures;
 
 use App\Entity\Brand;
+use App\Entity\Client;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Product;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
     private $faker;
+    public const DEFAULT_USER_EMAIL = 'mickaelr20@gmail.com';
+    public const DEFAULT_USER_PASSWORD = 'azerty';
 
-    public function __construct()
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
         $this->faker = Factory::create();
     }
 
     public function load(ObjectManager $manager): void
     {
-        // Création des catégories des marques : Brand
-        $brandCategoriesValues = [
-            [
-                'name' => 'Google',
-                'code' => 'GOO'
-            ], [
-                'name' => 'Xiaomi',
-                'code' => 'XIA'
-            ], [
-                'name' => 'Samsung',
-                'code' => 'SAM'
-            ], [
-                'name' => 'Apple',
-                'code' => 'APL'
-            ], [
-                'name' => 'Razer',
-                'code' => 'RZR'
-            ], [
-                'name' => 'LG',
-                'code' => 'LG'
-            ],
-        ];
-
         for ($i = 0; $i < 10; $i++) {
             $brand = new Brand();
             $brand->setCode("BR" . $i);
             $name = $this->faker->word();
-            echo $name;
             $brand->setName($name);
             $manager->persist($brand);
 
@@ -58,6 +38,11 @@ class AppFixtures extends Fixture
             $product->setPrice($this->faker->randomNumber(3, false));
             $manager->persist($product);
         }
+
+        $client = new Client();
+        $client->setEmail(self::DEFAULT_USER_EMAIL);
+        $client->setPassword($this->passwordHasher->hashPassword($client, self::DEFAULT_USER_PASSWORD));
+        $manager->persist($client);
 
         $manager->flush();
     }
