@@ -22,7 +22,7 @@ class Product
     #[ORM\ManyToOne]
     private ?Brand $brand = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, type: "text")]
     private ?string $description = null;
 
     #[ORM\Column]
