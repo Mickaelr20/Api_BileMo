@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
 class Brand
 {
@@ -14,9 +16,11 @@ class Brand
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $name = null;
 
     public function getId(): ?int

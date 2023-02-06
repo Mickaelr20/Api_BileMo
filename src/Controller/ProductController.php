@@ -17,12 +17,12 @@ class ProductController extends AbstractController
     public function list(Request $request, ProductRepository $productRepository): Response
     {
         $products = $productRepository->listPage($request->query->getInt("page", 1), 10);
-        return $this->json($products);
+        return $this->json($products, Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 
     #[Route('/{id}', requirements: ['id' => '\d+'], name: 'view', methods: ['GET'])]
     public function view(Product $product): Response
     {
-        return $this->json($product);
+        return $this->json($product, Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 }

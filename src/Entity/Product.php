@@ -5,27 +5,35 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['read'])]
     private ?Brand $brand = null;
 
     #[ORM\Column(length: 255, type: "text")]
+    #[Groups(['read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?float $price = null;
 
     public function getId(): ?int
