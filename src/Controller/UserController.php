@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/users', name: 'api_users_')]
@@ -20,9 +19,11 @@ class UserController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, UserRepository $userRepository): Response
     {
-        /** @var Client $client */
+        /** @var \App\Entity\Client $client */
         $client = $this->getUser();
-        return $this->json($client->getUsers(), Response::HTTP_OK, [], ['groups' => ['read']]);
+        // return $this->json($client->getUsers(), Response::HTTP_OK, [], ['groups' => ['read']]);
+        $users = $userRepository->listPage($client, $request->query->getInt("page", 1),);
+        return $this->json($users, Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 
     #[Route('', name: 'new', methods: ['POST'])]

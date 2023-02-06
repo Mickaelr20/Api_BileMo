@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,6 +41,19 @@ class UserRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
+    }
+
+    public function listPage(Client $client, int $page, int $limit = 2): array
+    {
+        $offset = $limit * ($page - 1);
+
+        return $this->createQueryBuilder('users')
+            ->andWhere('users.client = :client')
+            ->setParameter('client', $client)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
