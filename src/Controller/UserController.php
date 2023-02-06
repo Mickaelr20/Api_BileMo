@@ -19,11 +19,9 @@ class UserController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, UserRepository $userRepository): Response
     {
-        // $users = $userRepository->listPage($request->query->getInt("page", 1), 10);
-        // return $this->json($users);
-
-        $user = $this->getUser();
-        return $this->json($user);
+        /** @var Client $client */
+        $client = $this->getUser();
+        return $this->json($client->getUsers(), Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 
     #[Route('', name: 'new', methods: ['POST'])]
