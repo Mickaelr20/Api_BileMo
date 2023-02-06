@@ -40,6 +40,16 @@ class UserController extends AbstractController
 
         return $this->json($user, Response::HTTP_CREATED, [], ['groups' => ['read']]);
     }
+
+    #[Route('/{id}', requirements: ['id' => '\d+'], name: 'view', methods: ['GET'])]
+    public function view(User $user): Response
+    {
+        if (!$this->isGranted('view', $user)) {
+            throw new NotFoundHttpException();
+        }
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => ['read']]);
+    }
+
     #[Route('/{id}', requirements: ['id' => '\d+'], name: 'delete', methods: ['DELETE'])]
     public function delete(User $user, UserRepository $userRepository): Response
     {

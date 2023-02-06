@@ -30,11 +30,16 @@ class UserVoter extends Voter
         }
 
         return match ($attribute) {
+            self::VIEW => $this->canView($client, $subject),
             self::DELETE => $this->canDelete($client, $subject),
             default => throw new \LogicException('This code should not be reached!')
         };
     }
 
+    private function canView(Client $client, User $user): bool
+    {
+        return $user->getClient() === $client;
+    }
 
     private function canDelete(Client $client, User $user): bool
     {
