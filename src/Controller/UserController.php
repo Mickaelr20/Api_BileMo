@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
@@ -38,5 +39,16 @@ class UserController extends AbstractController
         $userRepository->new($user);
 
         return $this->json($user, Response::HTTP_CREATED, [], ['groups' => ['read']]);
+    }
+    #[Route('/{id}', requirements: ['id' => '\d+'], name: 'delete', methods: ['DELETE'])]
+    public function delete(User $user, UserRepository $userRepository): Response
+    {
+        if (!$this->isGranted('delete', $user)) {
+            throw new NotFoundHttpException();
+        }
+
+        $userRepository->remove($user);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT, [], ['groups' => ['read']]);
     }
 }
