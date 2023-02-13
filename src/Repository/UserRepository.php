@@ -56,6 +56,16 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('users')
+            // Filter by some parameter if you want
+            // ->where('a.published = 1')
+            ->select('count(users.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

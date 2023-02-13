@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/users', name: 'api_users_')]
 class UserController extends AbstractController
@@ -21,9 +22,31 @@ class UserController extends AbstractController
     {
         /** @var \App\Entity\Client $client */
         $client = $this->getUser();
-        // return $this->json($client->getUsers(), Response::HTTP_OK, [], ['groups' => ['read']]);
-        $users = $userRepository->listPage($client, $request->query->getInt("page", 1),);
-        return $this->json($users, Response::HTTP_OK, [], ['groups' => ['read']]);
+        $limit = 3;
+        $page = $request->query->getInt("page", 1) >= 1 ? $request->query->getInt("page", 1) : 1;
+        $users = $userRepository->listPage($client, $page, $limit);
+        $total = $userRepository->countAll();
+        $count = count($users);
+        $pages = ceil($total / $limit);
+
+        $results = [
+            "page" => $page,
+            "pages" => $pages,
+            "count" => $count,
+            "total" => $total,
+            "limit" => $limit,
+            "_links" => [
+                "first" => $this->generateUrl('api_users_list', ['page' => 1], UrlGeneratorInterface::ABSOLUTE_URL),
+                "last" => $this->generateUrl('api_users_list', ['page' => $pages], UrlGeneratorInterface::ABSOLUTE_URL),
+                "next" => ($page + 1) <= $pages ? $this->generateUrl('api_users_list', ['page' => $page + 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
+                "previous" => ($page - 1) >= 1 ? $this->generateUrl('api_users_list', ['page' => $page - 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
+            ],
+            "_embedded" => [
+                'items' => $users,
+            ],
+        ];
+
+        return $this->json($results, Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 
     #[Route('', name: 'new', methods: ['POST'])]
