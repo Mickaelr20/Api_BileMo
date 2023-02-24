@@ -14,18 +14,22 @@ class ExceptionListener
     public function __invoke(ExceptionEvent $event): void
     {
         // You get the exception object from the received event
-        $exception = $event->getThrowable();
+        // $exception = $event->getThrowable();
 
-        if ($exception instanceof NotFoundHttpException) {
-            $event->setResponse(
-                new JsonResponse(
-                    [
-                        'code' => 404,
-                        'message' => "L'entité n'a pas été trouvée."
-                    ],
-                    404
-                )
-            );
-        }
+        // $event->setResponse(
+        //     new JsonResponse(
+        //         [
+        //             'code' => $event->getResponse()->getStatusCode(),
+        //             'message' => match($exception::class){
+        //                 NotFoundHttpException::class => 'Cette resource n\'existe pas'
+        //             }
+        //         ],
+        //         $event->getResponse()->getStatusCode(),
+        //     )
+        // );
+
+        // if ($exception instanceof NotFoundHttpException) {
+
+        // }
     }
 }

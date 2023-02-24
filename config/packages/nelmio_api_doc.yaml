@@ -1,0 +1,134 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: BileMo Api doc
+      description: Documentation pour l'api BileMo
+      version: 1.0.0
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+    documentation:
+      paths:
+        "/api/users":
+          post:
+            tags:
+              - user
+            summary: "Ajouter un utilisateur"
+            description: "Ajouter un utilisateur"
+            operationId: usersAdd
+            requestBody:
+              content:
+                application/json:
+                  schema:
+                    properties:
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      email:
+                        type: string
+                    type: object
+                    example:
+                      firstName: "Mickaël"
+                      lastName: "Rivière"
+                      email: "mickaelr20@gmail.com"
+            responses:
+              "201":
+                description: "L'utilisateur a été créé"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/User'
+                      
+          get:
+            tags:
+              - user
+            summary: "Liste des utilisateurs"
+            description: "Liste des utilisateurs"
+            operationId: usersList
+            parameters:
+              - name: page
+                in: query
+                description: "Page a afficher"
+                required: false
+                schema:
+                  type: integer
+                examples:
+                  int:
+                    summary: "Afficher page 1"
+                    value: 1
+            responses:
+              "200":
+                description: "Liste des utilisateurs"
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        page:
+                          type: integer
+                        pages:
+                          type: string
+                        count:
+                          type: string
+                        total:
+                          type: string
+                        limit:
+                          type: string
+                        _links:
+                          type: array
+                          items:
+                            properties:
+                              first:
+                                type: string
+                              last:
+                                type: string
+                              next:
+                                type: string
+                              previous:
+                                type: string
+                        _embedded:
+                          type: array
+                          items:
+                            properties:
+                              items:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/User'
+                      type: object
+                      example:
+                        page: 2
+                        pages: 3
+                        count: 3
+                        total: 9
+                        limit: 3
+                        _links: [
+                          first: "http://127.0.0.1:8000/api/users?page=1",
+                          last: http://127.0.0.1:8000/api/users?page=3",
+                          next: "http://127.0.0.1:8000/api/users?page=3",
+                          previous: "http://127.0.0.1:8000/api/users?page=1",
+                        ]
+
+      components:
+        schemas:
+          User:
+            title: 'User'
+            properties:
+              id:
+                type: integer
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+            type: object
+            example:
+              id: 1
+              firstName: "Mickaël"
+              lastName: "Rivière"
+              email: "mickaelr20@gmail.com"
+              _links:
+                [
+                  self: "http://127.0.0.1:8000/api/users/1",
+                  delete: "http://127.0.0.1:8000/api/users/1",
+                ]
