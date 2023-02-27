@@ -1,5 +1,5 @@
 <?php
-// src/EventListener/ExceptionListener.php
+
 namespace App\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -13,23 +13,19 @@ class ExceptionListener
 {
     public function __invoke(ExceptionEvent $event): void
     {
-        // You get the exception object from the received event
-        // $exception = $event->getThrowable();
+        $exception = $event->getThrowable();
 
-        // $event->setResponse(
-        //     new JsonResponse(
-        //         [
-        //             'code' => $event->getResponse()->getStatusCode(),
-        //             'message' => match($exception::class){
-        //                 NotFoundHttpException::class => 'Cette resource n\'existe pas'
-        //             }
-        //         ],
-        //         $event->getResponse()->getStatusCode(),
-        //     )
-        // );
-
-        // if ($exception instanceof NotFoundHttpException) {
-
-        // }
+        $event->setResponse(
+            new JsonResponse(
+                [
+                    'code' => $exception->getStatusCode(),
+                    'message' => match ($exception::class) {
+                        NotFoundHttpException::class => 'Cette resource n\'existe pas',
+                        default => $exception->getMessage()
+                    }
+                ],
+                $exception->getStatusCode(),
+            )
+        );
     }
 }
