@@ -38,8 +38,10 @@ nelmio_api_doc:
                 content:
                   application/json:
                     schema:
-                      $ref: '#/components/schemas/User'
-                      
+                      $ref: "#/components/schemas/User"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+
           get:
             tags:
               - user
@@ -93,7 +95,7 @@ nelmio_api_doc:
                               items:
                                 type: array
                                 items:
-                                  $ref: '#/components/schemas/User'
+                                  $ref: "#/components/schemas/User"
                       type: object
                       example:
                         page: 2
@@ -101,17 +103,199 @@ nelmio_api_doc:
                         count: 3
                         total: 9
                         limit: 3
-                        _links: [
-                          first: "http://127.0.0.1:8000/api/users?page=1",
-                          last: http://127.0.0.1:8000/api/users?page=3",
-                          next: "http://127.0.0.1:8000/api/users?page=3",
-                          previous: "http://127.0.0.1:8000/api/users?page=1",
-                        ]
+                        _links:
+                          first: "http://127.0.0.1:8000/api/users?page=1"
+                          last: "http://127.0.0.1:8000/api/users?page=3"
+                          next: "http://127.0.0.1:8000/api/users?page=3"
+                          previous: "http://127.0.0.1:8000/api/users?page=1"
+                        _embedded:
+                          items:
+                            - id: 1
+                              firstName: "Mickaël"
+                              lastName: "Rivière"
+                              email: "mickaelr20@gmail.com"
+                              _links:
+                                self: "http://127.0.0.1:8000/api/users/1"
+                                delete: "http://127.0.0.1:8000/api/users/1"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+
+        "/api/products":
+          get:
+            tags:
+              - product
+            summary: "Liste des produits"
+            description: "Liste des produits"
+            operationId: productsList
+            parameters:
+              - name: page
+                in: query
+                description: "Page a afficher"
+                required: false
+                schema:
+                  type: integer
+                examples:
+                  int:
+                    summary: "Afficher page 1"
+                    value: 1
+            responses:
+              "200":
+                description: "Liste des produits"
+                content:
+                  application/json:
+                    schema:
+                      properties:
+                        page:
+                          type: integer
+                        pages:
+                          type: string
+                        count:
+                          type: string
+                        total:
+                          type: string
+                        limit:
+                          type: string
+                        _links:
+                          type: array
+                          items:
+                            properties:
+                              first:
+                                type: string
+                              last:
+                                type: string
+                              next:
+                                type: string
+                              previous:
+                                type: string
+                        _embedded:
+                          type: array
+                          items:
+                            properties:
+                              items:
+                                type: array
+                                items:
+                                  $ref: "#/components/schemas/Product"
+                      type: object
+                      example:
+                        page: 1
+                        pages: 1
+                        count: 1
+                        total: 1
+                        limit: 10
+                        _links:
+                          first: "http://127.0.0.1:8000/api/products?page=1"
+                          last: "http://127.0.0.1:8000/api/products?page=3"
+                        _embedded:
+                          items:
+                            - id: 1
+                              firstName: "Mickaël"
+                              lastName: "Rivière"
+                              email: "mickaelr20@gmail.com"
+                              _links:
+                                self: "http://127.0.0.1:8000/api/users/1"
+                                delete: "http://127.0.0.1:8000/api/users/1"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+
+        "/api/products/{id}":
+          get:
+            tags:
+              - product
+            summary: "Voir un produit"
+            description: "Voir un produit"
+            operationId: productsView
+            parameters:
+              - name: id
+                in: path
+                description: "L'id du produit a afficher"
+                required: true
+                schema:
+                  type: integer
+                examples:
+                  int:
+                    summary: 'Afficher produit avec l''id "1"'
+                    value: 1
+            responses:
+              "200":
+                description: "Liste des produits"
+                content:
+                  application/json:
+                    schema:
+                      $ref: "#/components/schemas/Product"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+              "404":
+                $ref: "#/components/responses/NotFoundError"
+
+        "/api/users/{id}":
+          get:
+            tags:
+              - user
+            summary: "Voir un utilisateur"
+            description: "Voir un utilisateur"
+            operationId: usersView
+            parameters:
+              - name: id
+                in: path
+                description: "L'id de l'utilisateur a afficher"
+                required: true
+                schema:
+                  type: integer
+                examples:
+                  int:
+                    summary: 'Afficher utilisateur avec l''id "1"'
+                    value: 1
+            responses:
+              "200":
+                description: "Liste des utilisateurs"
+                content:
+                  application/json:
+                    schema:
+                      $ref: "#/components/schemas/User"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+              "404":
+                $ref: "#/components/responses/NotFoundError"
+          delete:
+            tags:
+              - user
+            summary: "Supprimer un utilisateur"
+            description: "Supprimer un utilisateur"
+            operationId: usersDelete
+            parameters:
+              - name: id
+                in: path
+                description: "L'id de l'utilisateur a supprimer"
+                required: true
+                schema:
+                  type: integer
+                examples:
+                  int:
+                    summary: 'supprimer utilisateur avec l''id "1"'
+                    value: 1
+            responses:
+              "204":
+                description: "Utilisateur supprimé"
+              "401":
+                $ref: "#/components/responses/UnauthorizedError"
+              "404":
+                $ref: "#/components/responses/NotFoundError"
+
+        "/api/doc.json":
+          get:
+            tags:
+              - api
+              - documentation
+            summary: "Voir la documentation en json"
+            description: "Voir la documentation en json"
+            responses:
+              "200":
+                description: "La documentation en format json"
 
       components:
         schemas:
           User:
-            title: 'User'
+            title: "User"
             properties:
               id:
                 type: integer
@@ -121,6 +305,14 @@ nelmio_api_doc:
                 type: string
               email:
                 type: string
+              _links:
+                type: array
+                items:
+                  properties:
+                    self:
+                      type: string
+                    delete:
+                      type: string
             type: object
             example:
               id: 1
@@ -128,7 +320,90 @@ nelmio_api_doc:
               lastName: "Rivière"
               email: "mickaelr20@gmail.com"
               _links:
-                [
-                  self: "http://127.0.0.1:8000/api/users/1",
-                  delete: "http://127.0.0.1:8000/api/users/1",
-                ]
+                self: "http://127.0.0.1:8000/api/users/1"
+                delete: "http://127.0.0.1:8000/api/users/1"
+
+          Product:
+            title: "Product"
+            properties:
+              id:
+                type: integer
+              reference:
+                type: string
+              name:
+                type: string
+              brand:
+                type: string
+              description:
+                type: string
+              price:
+                type: integer
+              _links:
+                type: array
+                items:
+                  properties:
+                    self:
+                      type: string
+            type: object
+            example:
+              id: 1
+              reference: "P-00000"
+              name: "sapiente unde autem"
+              brand:
+                code: "BR0"
+                name: "maxime"
+              description: "Quaerat aperiam minima dolores sit quia corporis aperiam. Commodi molestiae ea odit facere odio recusandae. Deserunt quas dignissimos ex libero enim."
+              price: 784
+              _links:
+                self: "http://127.0.0.1:8000/api/products/1"
+
+          Brand:
+            title: "Brand"
+            properties:
+              code:
+                type: integer
+              name:
+                type: string
+            type: object
+            example:
+              code: "BR0"
+              name: "maxime"
+
+        responses:
+          UnauthorizedError:
+            description: "Le token d'accès est invalide ou manquant"
+            content:
+              application/json:
+                schema:
+                  properties:
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                  type: object
+                  example:
+                    code: 401
+                    message: "Invalid JWT Token"
+
+          NotFoundError:
+            description: "La ressource demandé n'existe pas"
+            content:
+              application/json:
+                schema:
+                  properties:
+                    code:
+                      type: integer
+                    message:
+                      type: string
+                  type: object
+                  example:
+                    code: 404
+                    message: "Cette resource n'existe pas"
+
+        securitySchemes:
+          bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - bearerAuth: []
