@@ -1,4 +1,5 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2dc7481171cf4cf495b496f20154f1d7)](https://www.codacy.com/gh/Mickaelr20/Api_BileMo/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Mickaelr20/Api_BileMo&amp;utm_campaign=Badge_Grade)
 
 <!-- TABLE OF CONTENTS -->
 <details>

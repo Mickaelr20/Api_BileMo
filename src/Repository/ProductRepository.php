@@ -16,47 +16,47 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Product::class);
-    }
+	public function __construct(ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Product::class);
+	}
 
-    public function save(Product $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
+	public function save(Product $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    public function remove(Product $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
+	public function remove(Product $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    public function listPage($page, $limit = 12): array
-    {
-        $offset = $limit * ($page - 1);
+	public function listPage($page, $limit = 12): array
+	{
+		$offset = $limit * ($page - 1);
 
-        return $this->createQueryBuilder('products')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
-    }
+		return $this->createQueryBuilder('products')
+			->setFirstResult($offset)
+			->setMaxResults($limit)
+			->getQuery()
+			->getResult();
+	}
 
-    public function countAll(): int
-    {
-        return $this->createQueryBuilder('products')
-            // Filter by some parameter if you want
-            // ->where('a.published = 1')
-            ->select('count(products.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
+	public function countAll(): int
+	{
+		return $this->createQueryBuilder('products')
+			// Filter by some parameter if you want
+			// ->where('a.published = 1')
+			->select('count(products.id)')
+			->getQuery()
+			->getSingleScalarResult();
+	}
 }
