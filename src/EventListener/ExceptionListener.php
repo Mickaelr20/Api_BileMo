@@ -24,7 +24,7 @@ class ExceptionListener
                     'message' => match ($exception::class) {
                         NotFoundHttpException::class => 'Cette resource n\'existe pas',
                         default => $exception->getMessage()
-                    }
+                    },
                 ],
                 $exception->getStatusCode(),
             )

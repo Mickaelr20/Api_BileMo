@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class ProductNormalizer implements NormalizerInterface
 {
-
     public function __construct(private UrlGeneratorInterface $router, private ObjectNormalizer $normalizer)
     {
     }
@@ -21,7 +20,7 @@ class ProductNormalizer implements NormalizerInterface
         $data['_links']['self'] = $this->router->generate('api_products_view', [
             'id' => $product->getId(),
         ], UrlGeneratorInterface::ABSOLUTE_URL);
-        
+
         return $data;
     }
 

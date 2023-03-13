@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -28,7 +27,7 @@ class Product
     #[Groups(['read'])]
     private ?Brand $brand = null;
 
-    #[ORM\Column(length: 255, type: "text")]
+    #[ORM\Column(length: 255, type: 'text')]
     #[Groups(['read'])]
     private ?string $description = null;
 

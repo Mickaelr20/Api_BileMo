@@ -1,5 +1,7 @@
 <?php
+
 // src/Security/UserVoter.php
+
 namespace App\Security;
 
 use App\Entity\Client;
@@ -10,8 +12,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class UserVoter extends Voter
 {
     // Actions
-    const VIEW = 'view';
-    const DELETE = 'delete';
+    public const VIEW = 'view';
+    public const DELETE = 'delete';
 
     protected function supports(string $attribute, mixed $subject): bool
     {

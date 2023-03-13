@@ -15,7 +15,6 @@ use OpenApi\Attributes as OA;
 #[Route('/products', name: 'api_products_')]
 class ProductController extends AbstractController
 {
-
     // #[OA\Response(
     //     response: 200,
     //     description: 'Returns a list of products',
@@ -35,15 +34,15 @@ class ProductController extends AbstractController
     public function list(Request $request, ProductRepository $productRepository): Response
     {
         $limit = 10;
-        $page = $request->query->getInt("page", 1) >= 1 ? $request->query->getInt("page", 1) : 1;
+        $page = $request->query->getInt('page', 1) >= 1 ? $request->query->getInt('page', 1) : 1;
         $products = $productRepository->listPage($page, $limit);
         $total = $productRepository->countAll();
         $count = count($products);
         $pages = ceil($total / $limit);
 
         $results_links = [
-            "first" => $this->generateUrl('api_products_list', ['page' => 1], UrlGeneratorInterface::ABSOLUTE_URL),
-            "last" => $this->generateUrl('api_products_list', ['page' => $pages], UrlGeneratorInterface::ABSOLUTE_URL),
+            'first' => $this->generateUrl('api_products_list', ['page' => 1], UrlGeneratorInterface::ABSOLUTE_URL),
+            'last' => $this->generateUrl('api_products_list', ['page' => $pages], UrlGeneratorInterface::ABSOLUTE_URL),
         ];
 
         if (($page + 1) <= $pages) {
@@ -55,13 +54,13 @@ class ProductController extends AbstractController
         }
 
         $results = [
-            "page" => $page,
-            "pages" => $pages,
-            "count" => $count,
-            "total" => $total,
-            "limit" => $limit,
-            "_links" => $results_links,
-            "_embedded" => [
+            'page' => $page,
+            'pages' => $pages,
+            'count' => $count,
+            'total' => $total,
+            'limit' => $limit,
+            '_links' => $results_links,
+            '_embedded' => [
                 'items' => $products,
             ],
         ];

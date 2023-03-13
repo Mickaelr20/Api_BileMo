@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class UserNormalizer implements NormalizerInterface
 {
-
     public function __construct(private UrlGeneratorInterface $router, private ObjectNormalizer $normalizer)
     {
     }

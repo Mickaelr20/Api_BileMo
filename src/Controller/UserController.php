@@ -16,32 +16,31 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 #[Route('/users', name: 'api_users_')]
 class UserController extends AbstractController
 {
-
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, UserRepository $userRepository): Response
     {
         /** @var \App\Entity\Client $client */
         $client = $this->getUser();
         $limit = 3;
-        $page = $request->query->getInt("page", 1) >= 1 ? $request->query->getInt("page", 1) : 1;
+        $page = $request->query->getInt('page', 1) >= 1 ? $request->query->getInt('page', 1) : 1;
         $users = $userRepository->listPage($client, $page, $limit);
         $total = $userRepository->countAll();
         $count = count($users);
         $pages = ceil($total / $limit);
 
         $results = [
-            "page" => $page,
-            "pages" => $pages,
-            "count" => $count,
-            "total" => $total,
-            "limit" => $limit,
-            "_links" => [
-                "first" => $this->generateUrl('api_users_list', ['page' => 1], UrlGeneratorInterface::ABSOLUTE_URL),
-                "last" => $this->generateUrl('api_users_list', ['page' => $pages], UrlGeneratorInterface::ABSOLUTE_URL),
-                "next" => ($page + 1) <= $pages ? $this->generateUrl('api_users_list', ['page' => $page + 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
-                "previous" => ($page - 1) >= 1 ? $this->generateUrl('api_users_list', ['page' => $page - 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
+            'page' => $page,
+            'pages' => $pages,
+            'count' => $count,
+            'total' => $total,
+            'limit' => $limit,
+            '_links' => [
+                'first' => $this->generateUrl('api_users_list', ['page' => 1], UrlGeneratorInterface::ABSOLUTE_URL),
+                'last' => $this->generateUrl('api_users_list', ['page' => $pages], UrlGeneratorInterface::ABSOLUTE_URL),
+                'next' => ($page + 1) <= $pages ? $this->generateUrl('api_users_list', ['page' => $page + 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
+                'previous' => ($page - 1) >= 1 ? $this->generateUrl('api_users_list', ['page' => $page - 1], UrlGeneratorInterface::ABSOLUTE_URL) : null,
             ],
-            "_embedded" => [
+            '_embedded' => [
                 'items' => $users,
             ],
         ];
@@ -57,7 +56,7 @@ class UserController extends AbstractController
         $errors = $validator->validate($user);
 
         if (count($errors) > 0) {
-            return $this->json(["errors" => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json(['errors' => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $userRepository->new($user);
@@ -71,6 +70,7 @@ class UserController extends AbstractController
         if (!$this->isGranted('view', $user)) {
             throw new NotFoundHttpException();
         }
+
         return $this->json($user, Response::HTTP_OK, [], ['groups' => ['read']]);
     }
 

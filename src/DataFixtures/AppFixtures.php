@@ -23,15 +23,15 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $brand = new Brand();
-            $brand->setCode("BR" . $i);
+            $brand->setCode('BR'.$i);
             $name = $this->faker->word();
             $brand->setName($name);
             $manager->persist($brand);
 
             $product = new Product();
-            $product->setReference('P-' . str_pad($i, 5, "0", STR_PAD_LEFT));
+            $product->setReference('P-'.str_pad($i, 5, '0', STR_PAD_LEFT));
             $product->setName($this->faker->words(3, true));
             $product->setBrand($brand);
             $product->setDescription($this->faker->sentence(15));
