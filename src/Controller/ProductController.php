@@ -15,21 +15,6 @@ use OpenApi\Attributes as OA;
 #[Route('/products', name: 'api_products_')]
 class ProductController extends AbstractController
 {
-    // #[OA\Response(
-    //     response: 200,
-    //     description: 'Returns a list of products',
-    //     content: new OA\JsonContent(
-    //         type: 'array',
-    //         items: new OA\Items(ref: new Model(type: Product::class, groups: ['read']))
-    //     )
-    // )]
-    // #[OA\Parameter(
-    //     name: 'page',
-    //     in: 'query',
-    //     description: 'La page a afficher',
-    //     schema: new OA\Schema(type: 'integer', minProperties: 0)
-    // )]
-    // #[OA\Tag(name: 'rewards')]
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, ProductRepository $productRepository): Response
     {

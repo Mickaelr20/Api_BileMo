@@ -53,8 +53,6 @@ class ProductRepository extends ServiceEntityRepository
     public function countAll(): int
     {
         return $this->createQueryBuilder('products')
-            // Filter by some parameter if you want
-            // ->where('a.published = 1')
             ->select('count(products.id)')
             ->getQuery()
             ->getSingleScalarResult();
