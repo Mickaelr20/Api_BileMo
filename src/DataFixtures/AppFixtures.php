@@ -34,7 +34,7 @@ class AppFixtures extends Fixture
             $product->setReference('P-' . str_pad($i, 5, "0", STR_PAD_LEFT));
             $product->setName($this->faker->words(3, true));
             $product->setBrand($brand);
-            $product->setDescription($this->faker->paragraph());
+            $product->setDescription($this->faker->sentence(15));
             $product->setPrice($this->faker->randomNumber(3, false));
             $manager->persist($product);
         }
