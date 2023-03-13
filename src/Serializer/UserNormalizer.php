@@ -9,26 +9,27 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class UserNormalizer implements NormalizerInterface
 {
-	public function __construct(private UrlGeneratorInterface $router, private ObjectNormalizer $normalizer)
-	{
-	}
 
-	public function normalize($user, string $format = null, array $context = [])
-	{
-		$data = $this->normalizer->normalize($user, $format, $context);
+    public function __construct(private UrlGeneratorInterface $router, private ObjectNormalizer $normalizer)
+    {
+    }
 
-		$data['_links']['self'] = $this->router->generate('api_users_view', [
-			'id' => $user->getId(),
-		], UrlGeneratorInterface::ABSOLUTE_URL);
-		$data['_links']['delete'] = $this->router->generate('api_users_delete', [
-			'id' => $user->getId(),
-		], UrlGeneratorInterface::ABSOLUTE_URL);
+    public function normalize($user, string $format = null, array $context = [])
+    {
+        $data = $this->normalizer->normalize($user, $format, $context);
 
-		return $data;
-	}
+        $data['_links']['self'] = $this->router->generate('api_users_view', [
+            'id' => $user->getId(),
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
+        $data['_links']['delete'] = $this->router->generate('api_users_delete', [
+            'id' => $user->getId(),
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-	public function supportsNormalization($data, string $format = null, array $context = [])
-	{
-		return $data instanceof User;
-	}
+        return $data;
+    }
+
+    public function supportsNormalization($data, string $format = null, array $context = [])
+    {
+        return $data instanceof User;
+    }
 }

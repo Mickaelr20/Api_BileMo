@@ -4,87 +4,88 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-	#[ORM\Id]
-	#[ORM\GeneratedValue]
-	#[ORM\Column]
-	#[Groups(['read'])]
-	private ?int $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    #[Groups(['read'])]
+    private ?int $id = null;
 
-	#[Assert\NotBlank]
-	#[ORM\Column(length: 255)]
-	#[Groups(['read'])]
-	private ?string $firstName = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
+    private ?string $firstName = null;
 
-	#[Assert\NotBlank]
-	#[ORM\Column(length: 255)]
-	#[Groups(['read'])]
-	private ?string $lastName = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
+    private ?string $lastName = null;
 
-	#[Assert\NotBlank]
-	#[ORM\Column(length: 255)]
-	#[Groups(['read'])]
-	private ?string $email = null;
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
+    #[Groups(['read'])]
+    private ?string $email = null;
 
-	#[ORM\ManyToOne(inversedBy: 'users')]
-	#[ORM\JoinColumn(nullable: false)]
-	private ?Client $client = null;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	public function getFirstName(): ?string
-	{
-		return $this->firstName;
-	}
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
 
-	public function setFirstName(string $firstName): self
-	{
-		$this->firstName = $firstName;
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getLastName(): ?string
-	{
-		return $this->lastName;
-	}
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
 
-	public function setLastName(string $lastName): self
-	{
-		$this->lastName = $lastName;
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-	public function setEmail(string $email): self
-	{
-		$this->email = $email;
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getClient(): ?Client
-	{
-		return $this->client;
-	}
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
 
-	public function setClient(?Client $client): self
-	{
-		$this->client = $client;
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
-		return $this;
-	}
+        return $this;
+    }
 }

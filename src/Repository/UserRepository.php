@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Client;
 use App\Entity\User;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,77 +17,77 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
-	public function __construct(ManagerRegistry $registry)
-	{
-		parent::__construct($registry, User::class);
-	}
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
 
-	public function save(User $entity, bool $flush = false): void
-	{
-		$this->getEntityManager()->persist($entity);
+    public function save(User $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-		if ($flush) {
-			$this->getEntityManager()->flush();
-		}
-	}
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-	public function remove(User $entity): void
-	{
-		$this->getEntityManager()->remove($entity);
-		$this->getEntityManager()->flush();
-	}
+    public function remove(User $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
+    }
 
-	public function new(User $entity): void
-	{
-		$this->getEntityManager()->persist($entity);
-		$this->getEntityManager()->flush();
-	}
+    public function new(User $entity): void
+    {
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+    }
 
-	public function listPage(Client $client, int $page, int $limit = 2): array
-	{
-		$offset = $limit * ($page - 1);
+    public function listPage(Client $client, int $page, int $limit = 2): array
+    {
+        $offset = $limit * ($page - 1);
 
-		return $this->createQueryBuilder('users')
-			->andWhere('users.client = :client')
-			->setParameter('client', $client)
-			->setFirstResult($offset)
-			->setMaxResults($limit)
-			->getQuery()
-			->getResult();
-	}
+        return $this->createQueryBuilder('users')
+            ->andWhere('users.client = :client')
+            ->setParameter('client', $client)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
-	public function countAll(): int
-	{
-		return $this->createQueryBuilder('users')
-			// Filter by some parameter if you want
-			// ->where('a.published = 1')
-			->select('count(users.id)')
-			->getQuery()
-			->getSingleScalarResult();
-	}
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('users')
+            // Filter by some parameter if you want
+            // ->where('a.published = 1')
+            ->select('count(users.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-	//    /**
-	//     * @return User[] Returns an array of User objects
-	//     */
-	//    public function findByExampleField($value): array
-	//    {
-	//        return $this->createQueryBuilder('u')
-	//            ->andWhere('u.exampleField = :val')
-	//            ->setParameter('val', $value)
-	//            ->orderBy('u.id', 'ASC')
-	//            ->setMaxResults(10)
-	//            ->getQuery()
-	//            ->getResult()
-	//        ;
-	//    }
+    //    /**
+    //     * @return User[] Returns an array of User objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('u.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-	//    public function findOneBySomeField($value): ?User
-	//    {
-	//        return $this->createQueryBuilder('u')
-	//            ->andWhere('u.exampleField = :val')
-	//            ->setParameter('val', $value)
-	//            ->getQuery()
-	//            ->getOneOrNullResult()
-	//        ;
-	//    }
+    //    public function findOneBySomeField($value): ?User
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
