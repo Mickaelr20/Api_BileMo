@@ -24,22 +24,16 @@ class ClientRepository extends ServiceEntityRepository implements PasswordUpgrad
         parent::__construct($registry, Client::class);
     }
 
-    public function save(Client $entity, bool $flush = false): void
+    public function save(Client $entity): void
     {
         $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
-    public function remove(Client $entity, bool $flush = false): void
+    public function remove(Client $entity): void
     {
         $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -53,6 +47,6 @@ class ClientRepository extends ServiceEntityRepository implements PasswordUpgrad
 
         $user->setPassword($newHashedPassword);
 
-        $this->save($user, true);
+        $this->save($user);
     }
 }

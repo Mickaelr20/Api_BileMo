@@ -67,9 +67,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return ['ROLE_USER'];
     }
 
     /**
