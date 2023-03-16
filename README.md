@@ -59,7 +59,7 @@ bin/console doctrine:fixtures:load
 
 ## Documentation
 
-La documentation se trouve à l'url "/api/doc" du projet
+La documentation se trouve à l'url <a href="https://mickaelr20.github.io/Api_BileMo/">https://mickaelr20.github.io/Api_BileMo/</a>
 
 <!-- LICENSE -->
 
