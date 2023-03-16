@@ -17,17 +17,36 @@ class User
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+    )]
+    #[ORM\Column(
+        length: 255
+    )]
     #[Groups(['read'])]
     private ?string $firstName = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+    )]
+    #[ORM\Column(
+        length: 255
+    )]
     #[Groups(['read'])]
     private ?string $lastName = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 50,
+    )]
+    #[ORM\Column(
+        length: 255
+    )]
+    #[Assert\Email]
     #[Groups(['read'])]
     private ?string $email = null;
 
