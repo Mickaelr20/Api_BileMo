@@ -53,9 +53,11 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function countAll(): int
+    public function countAll($client): int
     {
         return $this->createQueryBuilder('users')
+            ->andWhere('users.client = :client')
+            ->setParameter('client', $client)
             ->select('count(users.id)')
             ->getQuery()
             ->getSingleScalarResult();

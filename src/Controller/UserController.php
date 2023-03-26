@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $limit = 3;
         $page = $request->query->getInt('page', 1) >= 1 ? $request->query->getInt('page', 1) : 1;
         $users = $userRepository->listPage($client, $page, $limit);
-        $total = $userRepository->countAll();
+        $total = $userRepository->countAll($client);
         $count = count($users);
         $pages = ceil($total / $limit);
 
