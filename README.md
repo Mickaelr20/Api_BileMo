@@ -46,13 +46,13 @@ Une fois toutes les étapes précédentes effectuées, vous pouvez executer les 
 
 ```sh
 # Créer la base de données:
-bin/console doctrine:database:create
+php bin/console doctrine:database:create
 
 # Créer les tables:
-bin/console doctrine:migration:migrate
+php bin/console doctrine:migration:migrate
 
 # Créer le jeu de données initiale:
-bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load
 ```
 
 <!-- DOCUMENTATION -->
@@ -60,6 +60,8 @@ bin/console doctrine:fixtures:load
 ## Documentation
 
 La documentation se trouve à l'url <a href="https://mickaelr20.github.io/Api_BileMo/">https://mickaelr20.github.io/Api_BileMo/</a>
+
+Ou en local, une fois le projet lancé, accédez à la documentation via: "/api/doc"
 
 <!-- LICENSE -->
 
